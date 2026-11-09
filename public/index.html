@@ -841,6 +841,129 @@
       height: 4px;
       cursor: pointer;
     }
+
+    /* Onboarding Tour Walkthrough Modal */
+    .tour-box {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: 10px;
+      width: 100%;
+      max-width: 580px;
+      box-shadow: 0 30px 60px -15px rgba(0, 0, 0, 0.8);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tour-header {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-surface);
+    }
+
+    .tour-step-badge {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-muted);
+      background: var(--bg-elevated);
+      padding: 3px 8px;
+      border-radius: 4px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .tour-body {
+      padding: 24px 22px;
+      min-height: 240px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .tour-step-card {
+      display: none;
+      flex-direction: column;
+      gap: 12px;
+      animation: tourFade 0.2s ease-in-out;
+    }
+
+    .tour-step-card.active {
+      display: flex;
+    }
+
+    @keyframes tourFade {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .tour-icon-wrap {
+      width: 40px;
+      height: 40px;
+      border-radius: 8px;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+      margin-bottom: 4px;
+    }
+
+    .tour-step-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .tour-step-desc {
+      font-size: 13px;
+      color: var(--text-secondary);
+      line-height: 1.55;
+    }
+
+    .tour-tip-box {
+      background-color: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--accent-green);
+      padding: 10px 12px;
+      border-radius: 4px;
+      font-size: 11px;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    .tour-footer {
+      padding: 14px 20px;
+      border-top: 1px solid var(--border-subtle);
+      background-color: var(--bg-surface);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .tour-dots {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .tour-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background-color: var(--border-medium);
+      transition: all 0.2s ease;
+      cursor: pointer;
+    }
+
+    .tour-dot.active {
+      width: 18px;
+      border-radius: 4px;
+      background-color: var(--text-main);
+    }
   </style>
 </head>
 <body>
@@ -866,6 +989,11 @@
       <button class="btn" id="streamBtn" onclick="toggleStream()">
         <i data-lucide="pause" id="streamIcon" style="width: 13px; height: 13px;"></i>
         <span id="streamLabel">Pause feed</span>
+      </button>
+
+      <button class="btn" onclick="openTour()">
+        <i data-lucide="help-circle" style="width: 13px; height: 13px;"></i>
+        How to use
       </button>
 
       <button class="btn" onclick="openModal('customModal')">
@@ -1245,12 +1373,177 @@
     </div>
   </div>
 
+  <!-- Modal: Step-by-Step Onboarding Walkthrough -->
+  <div class="modal-backdrop" id="tourModal">
+    <div class="tour-box">
+      <div class="tour-header">
+        <div style="display: flex; align-items: center; gap: 8px;">
+          <i data-lucide="compass" style="width: 15px; height: 15px; color: var(--text-main);"></i>
+          <span style="font-weight: 600; font-size: 13px;">Platform Walkthrough</span>
+        </div>
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <span class="tour-step-badge" id="tourBadge">Step 1 of 4</span>
+          <button class="btn" style="height: 24px; padding: 0 6px;" onclick="closeTour()">
+            <i data-lucide="x" style="width: 12px; height: 12px;"></i>
+          </button>
+        </div>
+      </div>
+
+      <div class="tour-body">
+        <!-- Step 1 -->
+        <div class="tour-step-card active" id="tourStep1">
+          <div class="tour-icon-wrap">
+            <i data-lucide="activity" style="width: 20px; height: 20px; color: var(--accent-green);"></i>
+          </div>
+          <div class="tour-step-title">1. Real-Time Transaction Monitoring</div>
+          <div class="tour-step-desc">
+            The platform ingests live financial transactions (UPI, NetBanking, RuPay, Card swipes) in Indian Rupees (₹). Each payment is processed in <strong>under 15 milliseconds</strong> and categorized into Approved (Green), Manual Review (Amber), or Blocked (Red).
+          </div>
+          <div class="tour-tip-box">
+            <strong>How to use:</strong> Use the filter pills (All, Cleared, Review, Declined) above the table to view specific transaction statuses, or click "Step" to manually advance.
+          </div>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="tour-step-card" id="tourStep2">
+          <div class="tour-icon-wrap">
+            <i data-lucide="search" style="width: 20px; height: 20px; color: var(--accent-amber);"></i>
+          </div>
+          <div class="tour-step-title">2. Deep-Dive Inspection & Explainable AI (SHAP)</div>
+          <div class="tour-step-desc">
+            Click on any transaction row in the table to open the inspection panel. You will see the exact <strong>Ensemble Risk Score (0-100)</strong>, Isolation Forest anomaly index, and a clear <strong>SHAP waterfall</strong> explaining every risk factor in plain English.
+          </div>
+          <div class="tour-tip-box">
+            <strong>Transparency:</strong> No black-box decisions — every alert shows exact evidence (amount deviations, velocity spikes, foreign VPNs, or device changes).
+          </div>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="tour-step-card" id="tourStep3">
+          <div class="tour-icon-wrap">
+            <i data-lucide="zap" style="width: 20px; height: 20px; color: var(--accent-red);"></i>
+          </div>
+          <div class="tour-step-title">3. Test Targeted Fraud Attacks</div>
+          <div class="tour-step-desc">
+            At the bottom of the feed, click any of the 4 simulation buttons:
+            <ul style="padding-left: 18px; margin-top: 6px; display: flex; flex-direction: column; gap: 4px;">
+              <li><strong>Card Testing:</strong> 5 rapid micro-charges (₹10) probing card validity.</li>
+              <li><strong>Impossible Travel:</strong> London swipe 10 mins after Mumbai swipe (57,000 km/h).</li>
+              <li><strong>Account Takeover:</strong> ₹3.85 Lakh transfer at 3 AM from a foreign VPN.</li>
+              <li><strong>Crypto Drain:</strong> Sudden ₹6.2 Lakh liquidation to an offshore wallet.</li>
+            </ul>
+          </div>
+          <div class="tour-tip-box">
+            <strong>Visual alert:</strong> Notice how impossible travel triggers an interactive geodesic flight arc with the exact required speed.
+          </div>
+        </div>
+
+        <!-- Step 4 -->
+        <div class="tour-step-card" id="tourStep4">
+          <div class="tour-icon-wrap">
+            <i data-lucide="sliders" style="width: 20px; height: 20px; color: var(--text-main);"></i>
+          </div>
+          <div class="tour-step-title">4. Custom Sandbox & Bank Policy Rules</div>
+          <div class="tour-step-desc">
+            Click <strong>"Evaluate transaction"</strong> in the top bar to test any custom payment scenario. Click <strong>"Policy rules"</strong> to dynamically adjust the bank's automated block threshold (default: 80) and 10-minute velocity limits in real time.
+          </div>
+          <div class="tour-tip-box">
+            <strong>You are ready!</strong> Click "Start monitoring" below to explore the live fraud detection system.
+          </div>
+        </div>
+      </div>
+
+      <div class="tour-footer">
+        <button class="btn" style="background: none; border: none; color: var(--text-muted); font-size: 11px;" onclick="closeTour()">Skip guide</button>
+        <div class="tour-dots">
+          <span class="tour-dot active" onclick="goTourStep(1)"></span>
+          <span class="tour-dot" onclick="goTourStep(2)"></span>
+          <span class="tour-dot" onclick="goTourStep(3)"></span>
+          <span class="tour-dot" onclick="goTourStep(4)"></span>
+        </div>
+        <div style="display: flex; gap: 8px;">
+          <button class="btn" id="tourPrevBtn" style="display: none;" onclick="prevTourStep()">Back</button>
+          <button class="btn btn-primary" id="tourNextBtn" onclick="nextTourStep()">Next step</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script>
     let transactions = [];
     let selectedTx = null;
     let currentFilter = 'ALL';
     let isStreamActive = true;
     let streamTimer = null;
+
+    let currentTourStep = 1;
+    const totalTourSteps = 4;
+
+    function openTour() {
+      currentTourStep = 1;
+      renderTourStep(1);
+      document.getElementById('tourModal').classList.add('open');
+      lucide.createIcons();
+    }
+
+    function closeTour() {
+      document.getElementById('tourModal').classList.remove('open');
+    }
+
+    function renderTourStep(step) {
+      currentTourStep = step;
+      for (let i = 1; i <= totalTourSteps; i++) {
+        const card = document.getElementById(`tourStep${i}`);
+        if (card) {
+          if (i === step) card.classList.add('active');
+          else card.classList.remove('active');
+        }
+      }
+
+      const dots = document.querySelectorAll('.tour-dot');
+      dots.forEach((dot, idx) => {
+        if (idx + 1 === step) dot.classList.add('active');
+        else dot.classList.remove('active');
+      });
+
+      document.getElementById('tourBadge').textContent = `Step ${step} of ${totalTourSteps}`;
+      const prevBtn = document.getElementById('tourPrevBtn');
+      const nextBtn = document.getElementById('tourNextBtn');
+
+      if (step === 1) {
+        prevBtn.style.display = 'none';
+      } else {
+        prevBtn.style.display = 'inline-flex';
+      }
+
+      if (step === totalTourSteps) {
+        nextBtn.textContent = 'Start monitoring';
+        nextBtn.onclick = closeTour;
+      } else {
+        nextBtn.textContent = 'Next step';
+        nextBtn.onclick = nextTourStep;
+      }
+
+      lucide.createIcons();
+    }
+
+    function nextTourStep() {
+      if (currentTourStep < totalTourSteps) {
+        renderTourStep(currentTourStep + 1);
+      } else {
+        closeTour();
+      }
+    }
+
+    function prevTourStep() {
+      if (currentTourStep > 1) {
+        renderTourStep(currentTourStep - 1);
+      }
+    }
+
+    function goTourStep(step) {
+      renderTourStep(step);
+    }
 
     // Format currency in Indian standard (₹)
     function formatINR(amount) {
@@ -1274,6 +1567,11 @@
       await fetchTransactions();
       await fetchMetrics();
       startStream();
+
+      // Show step-by-step walkthrough automatically when website opens
+      setTimeout(() => {
+        openTour();
+      }, 350);
     }
 
     function toggleStream() {

@@ -204,3 +204,4 @@ The project is structured for **Vercel Serverless Deployment**:
 - [x] **Explainable AI (XAI)**: Plain Indian English explanation waterfall for every transaction decision.
 - [x] **Crafted Frontend**: Strict adherence to `heydamir/unslop` guidelines (no AI slop, no purple glow, no text truncation, comfortable 460px inspection drawer).
 - [x] **Vercel-Ready**: Clean configuration files (`vercel.json`, `api/index.py`, `requirements.txt`, `public/index.html`).
+
