@@ -64,28 +64,72 @@ The live interface includes an interactive simulation trigger bar to inject real
 
 ---
 
-## 4. Quick Start
+## 4. Quick Start & Local Execution
 
 ### Prerequisites
-- Python 3.10+ (with `fastapi`, `uvicorn`, `scikit-learn`, `numpy`)
+- Python 3.10+ (Dependencies auto-install if missing)
 
-### Running the System
-Run the launcher script or start the server directly:
+### Running Locally
+Choose any of the following options:
 
 ```powershell
-# Option 1: Run launcher script
+# Option 1: Universal Launcher (Windows / Mac / Linux)
+python run.py
+
+# Option 2: PowerShell Launcher (Windows)
 ./start.ps1
 
-# Option 2: Direct command
-python backend/server.py
+# Option 3: Shell Launcher (Linux / macOS)
+bash start.sh
+
+# Option 4: Direct server command
+uvicorn backend.server:app --reload --port 8000
 ```
 
 The system will start and serve the complete dashboard at:
 👉 **`http://127.0.0.1:8000`**
 
-### REST API Endpoints
+---
+
+## 5. Deployment Options
+
+### A. Vercel (Serverless Edge + Python)
+The repository is fully configured for Vercel with zero extra build steps:
+- `vercel.json`: Handles routing to `api/index.py` and static frontend hosting
+- `api/index.py`: Serverless ASGI entry point
+- `public/`: Served via Edge CDN
+
+**Deploy via Vercel CLI:**
+```bash
+npm install -g vercel
+vercel
+```
+
+**Deploy via GitHub:**
+1. Push this repository to GitHub.
+2. Import the repository in [vercel.com](https://vercel.com).
+3. Leave root as `./` and click **Deploy**.
+
+### B. Render / Railway / Heroku
+- Uses the included `Procfile`:
+  ```
+  web: uvicorn backend.server:app --host 0.0.0.0 --port $PORT
+  ```
+- Or connect GitHub to [render.com](https://render.com) using the included `render.yaml`.
+
+### C. Docker
+Build and run the containerized application:
+```bash
+docker build -t ai-fraud-detection .
+docker run -p 8000:8000 ai-fraud-detection
+```
+
+---
+
+## 6. REST API Endpoints
 - `GET /api/health` — System status and model version
 - `GET /api/transactions` — Recent transaction stream with filter parameters
+- `POST /api/generate-step` — Advance transaction simulation feed
 - `POST /api/evaluate` — Evaluate custom transaction with full XAI breakdown
 - `POST /api/simulate-attack` — Inject targeted attack scenario into the stream
 - `GET /api/metrics` — Telemetry, confusion matrix, ROC-AUC, and fraud rates

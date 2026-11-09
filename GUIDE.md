@@ -137,30 +137,40 @@ Click any of the 4 simulation buttons at the bottom of the feed:
 
 ## 5. How to Run Locally
 
-### Option A: One-Click PowerShell Launcher
+### Option A: Universal Python Launcher (Windows / Mac / Linux)
+```bash
+python run.py
+```
+*Automatically checks dependencies, opens your browser, and starts the server!*
+
+### Option B: One-Click PowerShell Launcher (Windows)
 ```powershell
 ./start.ps1
 ```
 
-### Option B: Direct Python Command
+### Option C: Shell Launcher (macOS / Linux)
+```bash
+bash start.sh
+```
+
+### Option D: Direct Uvicorn / Server Command
 ```powershell
-python backend/server.py
+uvicorn backend.server:app --reload --port 8000
 ```
 Open your browser at: **`http://127.0.0.1:8000`**
 
 ---
 
-## 6. How to Deploy on Vercel (Frontend & Backend)
+## 6. How to Deploy to Production
 
+### Option 1: Deploy on Vercel (Recommended)
 The project is structured for **Vercel Serverless Deployment**:
 - `vercel.json`: Configures Python serverless runtime (`@vercel/python`) for API routes and static hosting (`@vercel/static`) for the frontend.
 - `api/index.py`: Serverless handler exporting the FastAPI ASGI application.
 - `public/index.html`: Optimized, zero-build-dependency frontend served globally over Vercel Edge CDN.
 - `requirements.txt`: Python package requirements for Vercel.
 
-### Step-by-Step Vercel Deployment:
-
-#### Method 1: Using the Vercel CLI (Recommended)
+#### Method 1: Using the Vercel CLI
 1. Install Vercel CLI if you haven't already:
    ```bash
    npm install -g vercel
@@ -192,6 +202,20 @@ The project is structured for **Vercel Serverless Deployment**:
 4. Import your GitHub repository.
 5. Keep the default settings (Framework Preset: Other, Root Directory: `./`).
 6. Click **"Deploy"**. Vercel will automatically build the Python serverless function and serve the frontend at your unique `.vercel.app` URL!
+
+### Option 2: Deploy on Render or Railway
+- Deploying to [render.com](https://render.com) or [railway.app](https://railway.app) works out-of-the-box using the included `Procfile` and `render.yaml`.
+- Web service command:
+  ```bash
+  uvicorn backend.server:app --host 0.0.0.0 --port $PORT
+  ```
+
+### Option 3: Deploy with Docker
+Build and run anywhere with Docker:
+```bash
+docker build -t ai-fraud-detection .
+docker run -p 8000:8000 ai-fraud-detection
+```
 
 ---
 

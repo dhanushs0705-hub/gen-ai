@@ -10,6 +10,8 @@ All monetary values in Indian Rupees (₹ / INR).
 
 import numpy as np
 import math
+import os
+import joblib
 from typing import Dict, Any, List, Tuple
 from sklearn.ensemble import IsolationForest, RandomForestClassifier
 
@@ -192,7 +194,18 @@ class FraudMLService:
         return X, y
 
     def _train_models(self):
-        """Train Isolation Forest and Random Forest Classifier."""
+        """Train or load Isolation Forest and Random Forest Classifier."""
+        model_path = os.path.join(os.path.dirname(__file__), "model.joblib")
+        if os.path.exists(model_path):
+            try:
+                models = joblib.load(model_path)
+                self.isolation_forest = models["if"]
+                self.rf_classifier = models["rf"]
+                self.is_trained = True
+                return
+            except Exception as e:
+                print(f"Warning: Failed to load pre-trained models ({e}), retraining...")
+
         X, y = self._generate_synthetic_training_data(15000)
 
         # 1. Isolation Forest for unsupervised outlier detection
@@ -214,6 +227,11 @@ class FraudMLService:
         )
         self.rf_classifier.fit(X, y)
         self.is_trained = True
+
+        try:
+            joblib.dump({"if": self.isolation_forest, "rf": self.rf_classifier}, model_path, compress=3)
+        except Exception:
+            pass
 
     def extract_features(self, tx: Dict[str, Any], user_history: Dict[str, Any] = None) -> Tuple[np.ndarray, Dict[str, Any]]:
         """Extract features and context in Indian context."""

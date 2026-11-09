@@ -10,13 +10,21 @@ Provides endpoints for:
 import time
 import random
 import uuid
+import sys
 import os
 from typing import Dict, Any, List, Optional
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
-from ml_engine import fraud_engine, MCC_PROFILES
+backend_dir = os.path.dirname(os.path.abspath(__file__))
+if backend_dir not in sys.path:
+    sys.path.insert(0, backend_dir)
+
+try:
+    from ml_engine import fraud_engine, MCC_PROFILES
+except ImportError:
+    from backend.ml_engine import fraud_engine, MCC_PROFILES
 
 app = FastAPI(
     title="AI Fraud Detection Engine - India",
@@ -472,19 +480,24 @@ def update_rules(update: ConfigUpdateRequest):
         CONFIG["vpn_strict_mode"] = update.vpn_strict_mode
     return {"status": "updated", "config": CONFIG}
 
-# Static file serving: only in local dev environment
+# Static file serving: used when running standalone (local, Docker, Render, Railway, etc.)
 if os.environ.get("VERCEL") is None:
     from starlette.staticfiles import StaticFiles
-    static_dir = os.path.join(os.path.dirname(__file__), "..", "static")
-    if os.path.exists(static_dir):
-        app.mount("/", StaticFiles(directory=static_dir, html=True), name="static")
+    root_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    public_dir = os.path.join(root_dir, "public")
+    static_dir = os.path.join(root_dir, "static")
+    target_dir = public_dir if os.path.exists(public_dir) else static_dir
+    if os.path.exists(target_dir):
+        app.mount("/", StaticFiles(directory=target_dir, html=True), name="static")
 
 if __name__ == "__main__":
     import uvicorn
+    port = int(os.environ.get("PORT", 8000))
+    host = os.environ.get("HOST", "0.0.0.0" if os.environ.get("PORT") else "127.0.0.1")
     print("=" * 65)
     print(" Vigilance AI Fraud Detection Platform - Indian Banking Edition ")
     print(" Real-time Ensemble Inference: Isolation Forest + Random Forest")
     print(" Currency: Indian Rupees (₹) | Design: heydamir/unslop standard")
-    print(" Server live on: http://127.0.0.1:8000")
+    print(f" Server live on: http://{host}:{port}")
     print("=" * 65)
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host=host, port=port)
