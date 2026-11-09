@@ -1,0 +1,1681 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vigilance AI | Financial Fraud Detection System (India)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://cdn.jsdelivr.net/npm/lucide@0.469.0/dist/umd/lucide.min.js"></script>
+  
+  <style>
+    /* -------------------------------------------------------------------
+       Unslop Design System (Crafted Dark Graphite Palette & 4px Strict Grid)
+       No AI slop, no purple gradients, no glowing blobs, calm & exact
+       ------------------------------------------------------------------- */
+    :root {
+      --bg-base: #0c0d0e;
+      --bg-surface: #131416;
+      --bg-card: #18191c;
+      --bg-elevated: #202226;
+      --bg-hover: #26282e;
+
+      --border-subtle: rgba(255, 255, 255, 0.08);
+      --border-medium: rgba(255, 255, 255, 0.14);
+      --border-strong: rgba(255, 255, 255, 0.24);
+
+      --text-main: #f3f4f6;
+      --text-secondary: #9ca3af;
+      --text-muted: #6b7280;
+
+      --accent-green: #34d399;
+      --accent-green-bg: rgba(52, 211, 153, 0.10);
+      --accent-green-border: rgba(52, 211, 153, 0.25);
+
+      --accent-amber: #fbbf24;
+      --accent-amber-bg: rgba(251, 191, 36, 0.10);
+      --accent-amber-border: rgba(251, 191, 36, 0.25);
+
+      --accent-red: #f87171;
+      --accent-red-bg: rgba(248, 113, 113, 0.10);
+      --accent-red-border: rgba(248, 113, 113, 0.25);
+
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      --font-mono: 'JetBrains Mono', ui-monospace, Consolas, monospace;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 13px;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+      min-height: 100vh;
+    }
+
+    .mono {
+      font-family: var(--font-mono);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* Top Navigation Bar */
+    header {
+      height: 54px;
+      background-color: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 24px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .brand-icon-box {
+      width: 28px;
+      height: 28px;
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-main);
+    }
+
+    .brand-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-main);
+      letter-spacing: -0.01em;
+    }
+
+    .brand-tag {
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-left: 6px;
+      padding-left: 8px;
+      border-left: 1px solid var(--border-subtle);
+    }
+
+    .header-controls {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .live-badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 10px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      color: var(--text-secondary);
+    }
+
+    .pulse-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: var(--accent-green);
+      box-shadow: 0 0 8px rgba(52, 211, 153, 0.4);
+    }
+
+    .btn {
+      height: 32px;
+      padding: 0 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 500;
+      font-family: var(--font-sans);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      cursor: pointer;
+      border: 1px solid var(--border-subtle);
+      background-color: var(--bg-elevated);
+      color: var(--text-main);
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+      transition: all 0.15s ease;
+      white-space: nowrap;
+    }
+
+    .btn:hover {
+      background-color: var(--bg-hover);
+      border-color: var(--border-medium);
+    }
+
+    .btn-primary {
+      background-color: #ededed;
+      color: #111214;
+      border-color: transparent;
+      box-shadow: none;
+    }
+
+    .btn-primary:hover {
+      background-color: #ffffff;
+    }
+
+    /* Main Content */
+    main {
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 20px 24px 40px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    /* KPI Metrics Bar */
+    .kpi-row {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 1024px) {
+      .kpi-row {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .kpi-card {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 16px 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .kpi-card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .kpi-card-val {
+      font-size: 26px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+    }
+
+    .kpi-card-sub {
+      font-size: 11px;
+      color: var(--text-secondary);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    /* Master-Detail Split Workspace */
+    .workspace-split {
+      display: grid;
+      grid-template-columns: minmax(0, 1.4fr) minmax(460px, 1.05fr);
+      gap: 20px;
+      align-items: start;
+    }
+
+    @media (max-width: 1200px) {
+      .workspace-split {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Panels */
+    .panel {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .panel-top {
+      height: 48px;
+      padding: 0 18px;
+      border-bottom: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background-color: var(--bg-surface);
+    }
+
+    .panel-heading {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    /* Filter Pills */
+    .pill-filter-bar {
+      display: inline-flex;
+      background-color: var(--bg-base);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 2px;
+      gap: 2px;
+    }
+
+    .pill-opt {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 11px;
+      font-weight: 500;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .pill-opt.active {
+      background-color: var(--bg-elevated);
+      color: var(--text-main);
+    }
+
+    /* Table Styles */
+    .table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+    }
+
+    thead th {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-muted);
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      background-color: rgba(255, 255, 255, 0.015);
+      white-space: nowrap;
+    }
+
+    tbody td {
+      padding: 11px 14px;
+      border-bottom: 1px solid var(--border-subtle);
+      font-size: 12px;
+      color: var(--text-secondary);
+      white-space: nowrap;
+      vertical-align: middle;
+    }
+
+    tbody tr {
+      cursor: pointer;
+      transition: background-color 0.12s ease;
+    }
+
+    tbody tr:hover {
+      background-color: var(--bg-card);
+    }
+
+    tbody tr.active-row {
+      background-color: var(--bg-card);
+    }
+
+    tbody tr.active-row td:first-child {
+      box-shadow: inset 3px 0 0 var(--text-main);
+    }
+
+    /* Badges */
+    .decision-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 3px 8px;
+      border-radius: 4px;
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      letter-spacing: 0.02em;
+    }
+
+    .pill-approved {
+      background-color: var(--accent-green-bg);
+      color: var(--accent-green);
+      border: 1px solid var(--accent-green-border);
+    }
+
+    .pill-review {
+      background-color: var(--accent-amber-bg);
+      color: var(--accent-amber);
+      border: 1px solid var(--accent-amber-border);
+    }
+
+    .pill-declined {
+      background-color: var(--accent-red-bg);
+      color: var(--accent-red);
+      border: 1px solid var(--accent-red-border);
+    }
+
+    .risk-tag {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      font-weight: 500;
+      padding: 2px 7px;
+      border-radius: 4px;
+      display: inline-block;
+      text-align: center;
+      min-width: 42px;
+    }
+
+    .risk-safe {
+      color: var(--accent-green);
+      background-color: var(--accent-green-bg);
+    }
+
+    .risk-warn {
+      color: var(--accent-amber);
+      background-color: var(--accent-amber-bg);
+    }
+
+    .risk-danger {
+      color: var(--accent-red);
+      background-color: var(--accent-red-bg);
+    }
+
+    /* Attack Simulation Section */
+    .attack-section {
+      padding: 16px 18px;
+      background-color: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .attack-heading {
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--text-muted);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .attack-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    @media (max-width: 900px) {
+      .attack-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    .attack-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 10px 12px;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      text-align: left;
+      transition: all 0.15s ease;
+    }
+
+    .attack-card:hover {
+      background-color: var(--bg-elevated);
+      border-color: var(--border-medium);
+    }
+
+    .attack-card-title {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .attack-card-desc {
+      font-size: 11px;
+      color: var(--text-muted);
+      line-height: 1.35;
+    }
+
+    /* Inspection Panel Styles (Dedicated No-Clipping Layout) */
+    .inspector-content {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      width: 100%;
+    }
+
+    .inspector-hero {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 8px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+
+    .hero-top-row {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .hero-score-val {
+      font-size: 36px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      line-height: 1;
+      letter-spacing: -0.02em;
+    }
+
+    .hero-score-label {
+      font-size: 11px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      margin-bottom: 4px;
+    }
+
+    /* Micro Stat Blocks inside Inspector */
+    .micro-stats-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      padding-top: 12px;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .micro-stat-card {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .micro-stat-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+
+    .micro-stat-val {
+      font-size: 12px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+      color: var(--text-main);
+    }
+
+    /* Hard Rule Flag Alert */
+    .rule-violation-box {
+      background-color: var(--accent-red-bg);
+      border: 1px solid var(--accent-red-border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .rule-violation-head {
+      font-size: 11px;
+      font-weight: 600;
+      color: var(--accent-red);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .rule-violation-msg {
+      font-size: 11px;
+      color: var(--text-main);
+      line-height: 1.4;
+    }
+
+    /* Flight Route Card */
+    .flight-visual-box {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 12px 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .flight-visual-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .flight-track-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 12px;
+      background: var(--bg-base);
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .flight-loc-text {
+      font-weight: 600;
+      color: var(--text-main);
+      font-size: 13px;
+    }
+
+    .flight-speed-pill {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+      color: var(--accent-red);
+      background: var(--accent-red-bg);
+      padding: 2px 7px;
+      border-radius: 4px;
+      border: 1px solid var(--accent-red-border);
+    }
+
+    /* SHAP Waterfall Feature Attributions */
+    .section-head {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .attr-container {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .attr-row-card {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 10px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .attr-row-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .attr-name {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-main);
+    }
+
+    .attr-impact-tag {
+      font-size: 11px;
+      font-family: var(--font-mono);
+      font-weight: 600;
+    }
+
+    .attr-impact-tag.neg {
+      color: var(--accent-red);
+    }
+
+    .attr-impact-tag.pos {
+      color: var(--accent-green);
+    }
+
+    .attr-desc {
+      font-size: 11px;
+      color: var(--text-secondary);
+      line-height: 1.45;
+      white-space: normal;
+      word-break: break-word;
+    }
+
+    /* Telemetry Grid (Clean 2-Column Layout) */
+    .telemetry-box-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .telemetry-item {
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .telemetry-label {
+      font-size: 10px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+
+    .telemetry-val {
+      font-size: 12px;
+      font-family: var(--font-mono);
+      font-weight: 500;
+      color: var(--text-main);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* Benchmark Diagnostics */
+    .benchmark-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+      padding: 18px;
+    }
+
+    @media (max-width: 900px) {
+      .benchmark-section {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .cm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 6px;
+      background-color: var(--bg-base);
+      padding: 10px;
+      border-radius: 6px;
+      border: 1px solid var(--border-subtle);
+    }
+
+    .cm-item {
+      background-color: var(--bg-card);
+      border-radius: 4px;
+      padding: 8px 10px;
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .cm-item-lbl {
+      font-size: 10px;
+      color: var(--text-muted);
+    }
+
+    .cm-item-cnt {
+      font-size: 15px;
+      font-weight: 600;
+      font-family: var(--font-mono);
+    }
+
+    /* Modals */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background-color: rgba(12, 13, 14, 0.85);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .modal-backdrop.open {
+      display: flex;
+    }
+
+    .modal-box {
+      background-color: var(--bg-surface);
+      border: 1px solid var(--border-medium);
+      border-radius: 8px;
+      width: 100%;
+      max-width: 560px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+      overflow: hidden;
+    }
+
+    .form-grid-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .field-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 5px;
+    }
+
+    .field-lbl {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .input-ctrl {
+      height: 34px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 6px;
+      padding: 0 10px;
+      color: var(--text-main);
+      font-size: 12px;
+      font-family: var(--font-sans);
+      outline: none;
+      transition: border-color 0.15s ease;
+    }
+
+    .input-ctrl:focus {
+      border-color: var(--border-strong);
+    }
+
+    /* Range Sliders */
+    .slider-block {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      margin-bottom: 14px;
+    }
+
+    .slider-head {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+    }
+
+    .slider-elem {
+      accent-color: var(--text-main);
+      height: 4px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Top Navigation Bar -->
+  <header>
+    <div class="brand-section">
+      <div class="brand-icon-box">
+        <i data-lucide="shield-alert" style="width: 16px; height: 16px;"></i>
+      </div>
+      <div class="brand-title">Vigilance Risk Engine</div>
+      <div class="brand-tag">Indian Banking & UPI Fraud Intelligence</div>
+    </div>
+
+    <div class="header-controls">
+      <div class="live-badge">
+        <span class="pulse-dot" id="liveDot"></span>
+        <span id="liveStatusText">Live stream active</span>
+        <span style="color: var(--border-medium);">|</span>
+        <span id="latencyNum" class="mono">11.4ms</span>
+      </div>
+
+      <button class="btn" id="streamBtn" onclick="toggleStream()">
+        <i data-lucide="pause" id="streamIcon" style="width: 13px; height: 13px;"></i>
+        <span id="streamLabel">Pause feed</span>
+      </button>
+
+      <button class="btn" onclick="openModal('customModal')">
+        <i data-lucide="plus" style="width: 13px; height: 13px;"></i>
+        Evaluate transaction
+      </button>
+
+      <button class="btn" onclick="openModal('policyModal')">
+        <i data-lucide="sliders" style="width: 13px; height: 13px;"></i>
+        Policy rules
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <!-- Metrics Row (Indian INR Currency) -->
+    <section class="kpi-row">
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span>Transactions Evaluated</span>
+          <i data-lucide="activity" style="width: 13px; height: 13px;"></i>
+        </div>
+        <div class="kpi-card-val mono" id="kpiEvaluated">14,832</div>
+        <div class="kpi-card-sub">
+          <span class="mono" style="color: var(--text-main);">+24</span> tx/min stream cadence
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span>Fraud Loss Prevented</span>
+          <i data-lucide="shield-check" style="width: 13px; height: 13px;"></i>
+        </div>
+        <div class="kpi-card-val mono" id="kpiPrevented" style="color: var(--accent-green);">₹48.91 Lakhs</div>
+        <div class="kpi-card-sub">
+          <span style="color: var(--accent-green);">100%</span> unauthorized loss mitigation
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span>AI Precision & ROC-AUC</span>
+          <i data-lucide="target" style="width: 13px; height: 13px;"></i>
+        </div>
+        <div class="kpi-card-val mono" id="kpiAuc">0.984</div>
+        <div class="kpi-card-sub">
+          <span class="mono">0.18%</span> false positive rate
+        </div>
+      </div>
+
+      <div class="kpi-card">
+        <div class="kpi-card-header">
+          <span>Transactions Flagged</span>
+          <i data-lucide="alert-triangle" style="width: 13px; height: 13px;"></i>
+        </div>
+        <div class="kpi-card-val mono" id="kpiFlagged" style="color: var(--accent-amber);">42</div>
+        <div class="kpi-card-sub">
+          <span class="mono">1.4%</span> queued for Tier-2 audit
+        </div>
+      </div>
+    </section>
+
+    <!-- Master-Detail Workspace Grid -->
+    <div class="workspace-split">
+      
+      <!-- Left Column: Live Feed & Simulation Controls -->
+      <div style="display: flex; flex-direction: column; gap: 20px; min-width: 0;">
+        
+        <div class="panel">
+          <div class="panel-top">
+            <div class="panel-heading">
+              <i data-lucide="list" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+              Live transaction stream (INR ₹)
+            </div>
+            <div style="display: flex; align-items: center; gap: 8px;">
+              <div class="pill-filter-bar">
+                <button class="pill-opt active" onclick="setFilter('ALL', this)">All</button>
+                <button class="pill-opt" onclick="setFilter('APPROVE', this)">Cleared</button>
+                <button class="pill-opt" onclick="setFilter('MANUAL_REVIEW', this)">Review</button>
+                <button class="pill-opt" onclick="setFilter('DECLINE', this)">Declined</button>
+              </div>
+              <button class="btn" style="height: 26px; padding: 0 8px;" onclick="fetchStep()">
+                <i data-lucide="refresh-cw" style="width: 11px; height: 11px;"></i>
+                Step
+              </button>
+            </div>
+          </div>
+
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th style="width: 75px;">Time</th>
+                  <th style="width: 110px;">Txn ID</th>
+                  <th style="width: 130px;">Cardholder</th>
+                  <th style="width: 160px;">Merchant & Category</th>
+                  <th style="width: 95px; text-align: right;">Amount (₹)</th>
+                  <th style="width: 120px;">City & Route</th>
+                  <th style="width: 70px; text-align: center;">Risk</th>
+                  <th style="width: 95px; text-align: center;">Decision</th>
+                </tr>
+              </thead>
+              <tbody id="txTbody">
+                <!-- Dynamically populated rows -->
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Targeted Attack Scenarios -->
+          <div class="attack-section">
+            <div class="attack-heading">
+              <i data-lucide="zap" style="width: 12px; height: 12px;"></i>
+              Simulate fraud attack scenarios
+            </div>
+            <div class="attack-grid">
+              <button class="attack-card" onclick="triggerAttack('card_testing')">
+                <div class="attack-card-title">
+                  <i data-lucide="credit-card" style="width: 12px; height: 12px; color: var(--accent-red);"></i>
+                  Card testing
+                </div>
+                <div class="attack-card-desc">5 rapid ₹10 micro-transactions testing stolen card validity</div>
+              </button>
+
+              <button class="attack-card" onclick="triggerAttack('impossible_travel')">
+                <div class="attack-card-title">
+                  <i data-lucide="globe" style="width: 12px; height: 12px; color: var(--accent-red);"></i>
+                  Impossible travel
+                </div>
+                <div class="attack-card-desc">London swipe 10 mins after Mumbai swipe (57,000 km/h)</div>
+              </button>
+
+              <button class="attack-card" onclick="triggerAttack('account_takeover')">
+                <div class="attack-card-title">
+                  <i data-lucide="user-x" style="width: 12px; height: 12px; color: var(--accent-red);"></i>
+                  Account takeover
+                </div>
+                <div class="attack-card-desc">₹3.85 Lakh transfer at 3:15 AM from unknown foreign VPN</div>
+              </button>
+
+              <button class="attack-card" onclick="triggerAttack('crypto_drain')">
+                <div class="attack-card-title">
+                  <i data-lucide="arrow-up-right" style="width: 12px; height: 12px; color: var(--accent-red);"></i>
+                  Crypto drain
+                </div>
+                <div class="attack-card-desc">Sudden ₹6.2 Lakh liquidation to offshore crypto wallet</div>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Ensemble Architecture & Confusion Matrix -->
+        <div class="panel">
+          <div class="panel-top">
+            <div class="panel-heading">
+              <i data-lucide="bar-chart-2" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+              AI model architecture & validation performance
+            </div>
+          </div>
+          <div class="benchmark-section">
+            <div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Confusion matrix (15,000 Indian banking samples)</div>
+              <div class="cm-grid">
+                <div class="cm-item">
+                  <span class="cm-item-lbl">True Negatives (Legit Cleared)</span>
+                  <span class="cm-item-cnt mono" id="cmTN">14,220</span>
+                </div>
+                <div class="cm-item">
+                  <span class="cm-item-lbl">False Positives (False Alarms)</span>
+                  <span class="cm-item-cnt mono" id="cmFP" style="color: var(--accent-amber);">26</span>
+                </div>
+                <div class="cm-item">
+                  <span class="cm-item-lbl">False Negatives (Missed Fraud)</span>
+                  <span class="cm-item-cnt mono" id="cmFN" style="color: var(--accent-red);">38</span>
+                </div>
+                <div class="cm-item">
+                  <span class="cm-item-lbl">True Positives (Fraud Blocked)</span>
+                  <span class="cm-item-cnt mono" id="cmTP" style="color: var(--accent-green);">536</span>
+                </div>
+              </div>
+            </div>
+
+            <div>
+              <div style="font-size: 11px; color: var(--text-muted); margin-bottom: 8px;">Ensemble layer breakdown</div>
+              <div style="display: flex; flex-direction: column; gap: 7px; font-size: 11px;">
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-secondary);">Supervised Random Forest (depth 12, 120 trees)</span>
+                  <span class="mono" style="color: var(--text-main);">45% weight</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-secondary);">Unsupervised Isolation Forest (100 estimators)</span>
+                  <span class="mono" style="color: var(--text-main);">35% weight</span>
+                </div>
+                <div style="display: flex; justify-content: space-between;">
+                  <span style="color: var(--text-secondary);">Geographic Haversine & Hard Rule Engine</span>
+                  <span class="mono" style="color: var(--text-main);">20% weight</span>
+                </div>
+                <div style="display: flex; justify-content: space-between; padding-top: 4px; border-top: 1px solid var(--border-subtle);">
+                  <span style="color: var(--text-muted);">Calibrated inference latency</span>
+                  <span class="mono" style="color: var(--accent-green);">11.2ms p95</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Right Column: Dedicated Inspection Drawer (Spacious & No-Clipping) -->
+      <div class="panel" style="min-width: 0;">
+        <div class="panel-top">
+          <div class="panel-heading">
+            <i data-lucide="search" style="width: 14px; height: 14px; color: var(--text-muted);"></i>
+            Transaction inspection & explainable AI
+          </div>
+          <span class="mono" style="font-size: 11px; color: var(--text-muted);" id="inspectorTxId">Select transaction</span>
+        </div>
+
+        <div class="inspector-content" id="inspectorContent">
+          <div style="padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 12px;">
+            Select any transaction from the stream to view full anomaly breakdown and SHAP feature attributions.
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Modal: Custom Transaction Sandbox -->
+  <div class="modal-backdrop" id="customModal">
+    <div class="modal-box">
+      <div class="panel-top">
+        <div class="panel-heading">
+          <i data-lucide="plus-circle" style="width: 14px; height: 14px;"></i>
+          Evaluate custom transaction (INR ₹)
+        </div>
+        <button class="btn" style="height: 24px; padding: 0 6px;" onclick="closeModal('customModal')">
+          <i data-lucide="x" style="width: 12px; height: 12px;"></i>
+        </button>
+      </div>
+
+      <form id="customForm" onsubmit="handleCustomSubmit(event)" style="padding: 18px;">
+        <div class="form-grid-row">
+          <div class="field-wrap">
+            <label class="field-lbl">Customer Account</label>
+            <select class="input-ctrl" id="customUser">
+              <option value="usr_9102">Rahul Sharma (Mumbai - ₹1,850 avg)</option>
+              <option value="usr_4821">Priya Patel (Ahmedabad - ₹2,400 avg)</option>
+              <option value="usr_7342">Vikram Malhotra (Delhi - ₹3,500 avg)</option>
+              <option value="usr_6190">Ananya Iyer (Bengaluru - ₹2,100 avg)</option>
+              <option value="usr_3319">Arjun Nair (Kochi - ₹1,650 avg)</option>
+              <option value="usr_5528">Sneha Roy (Kolkata - ₹1,950 avg)</option>
+            </select>
+          </div>
+          <div class="field-wrap">
+            <label class="field-lbl">Amount (₹ INR)</label>
+            <input type="number" step="1.0" class="input-ctrl" id="customAmount" value="75000" required>
+          </div>
+        </div>
+
+        <div class="form-grid-row">
+          <div class="field-wrap">
+            <label class="field-lbl">Merchant Category (MCC)</label>
+            <select class="input-ctrl" id="customMcc">
+              <option value="5411">5411 - Kirana & Supermarkets</option>
+              <option value="5812">5812 - Restaurants & Dining</option>
+              <option value="5311">5311 - Online Shopping (Flipkart/Amazon)</option>
+              <option value="5732">5732 - Consumer Electronics</option>
+              <option value="5094">5094 - Jewellery & Gold Bullion</option>
+              <option value="6051" selected>6051 - Crypto Exchange Onramp</option>
+              <option value="7995">7995 - Online Gaming / Betting</option>
+              <option value="6012">6012 - Wire Remittance</option>
+            </select>
+          </div>
+          <div class="field-wrap">
+            <label class="field-lbl">Payment Mode</label>
+            <select class="input-ctrl" id="customChannel">
+              <option value="UPI">UPI Payment (GPay/PhonePe)</option>
+              <option value="NET_BANKING">NetBanking / IMPS / NEFT</option>
+              <option value="POS_SWIPE">Debit / Credit Card Swipe</option>
+              <option value="CNP">Online Card Checkout</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-grid-row">
+          <div class="field-wrap">
+            <label class="field-lbl">Velocity (Transactions in past 10m)</label>
+            <input type="number" class="input-ctrl" id="customVel10" value="4">
+          </div>
+          <div class="field-wrap">
+            <label class="field-lbl">Calculated Travel Speed (km/h)</label>
+            <input type="number" class="input-ctrl" id="customSpeed" value="1250">
+          </div>
+        </div>
+
+        <div class="form-grid-row">
+          <div class="field-wrap">
+            <label class="field-lbl">Prior Failed OTP / PIN attempts</label>
+            <input type="number" class="input-ctrl" id="customFailed" value="2">
+          </div>
+          <div class="field-wrap">
+            <label class="field-lbl">Hour of Day (0-23)</label>
+            <input type="number" class="input-ctrl" id="customHour" value="3">
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 18px; margin: 8px 0 16px;">
+          <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); cursor: pointer;">
+            <input type="checkbox" id="customVpn" checked>
+            VPN / Proxy Network Route
+          </label>
+          <label style="display: flex; align-items: center; gap: 6px; font-size: 12px; color: var(--text-secondary); cursor: pointer;">
+            <input type="checkbox" id="customNewDevice" checked>
+            Unrecognized Mobile Device
+          </label>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px;">
+          <button type="button" class="btn" onclick="closeModal('customModal')">Cancel</button>
+          <button type="submit" class="btn btn-primary">Score transaction</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: Policy Rules -->
+  <div class="modal-backdrop" id="policyModal">
+    <div class="modal-box">
+      <div class="panel-top">
+        <div class="panel-heading">
+          <i data-lucide="sliders" style="width: 14px; height: 14px;"></i>
+          Automated risk policy rules
+        </div>
+        <button class="btn" style="height: 24px; padding: 0 6px;" onclick="closeModal('policyModal')">
+          <i data-lucide="x" style="width: 12px; height: 12px;"></i>
+        </button>
+      </div>
+
+      <div style="padding: 18px;">
+        <div class="slider-block">
+          <div class="slider-head">
+            <span style="color: var(--text-secondary);">Automated Block Score Threshold</span>
+            <span class="mono" id="blockVal" style="color: var(--accent-red); font-weight: 600;">80</span>
+          </div>
+          <input type="range" min="60" max="95" value="80" class="slider-elem" id="blockSlider" oninput="document.getElementById('blockVal').textContent = this.value">
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-head">
+            <span style="color: var(--text-secondary);">Manual Review Threshold</span>
+            <span class="mono" id="reviewVal" style="color: var(--accent-amber); font-weight: 600;">50</span>
+          </div>
+          <input type="range" min="30" max="75" value="50" class="slider-elem" id="reviewSlider" oninput="document.getElementById('reviewVal').textContent = this.value">
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-head">
+            <span style="color: var(--text-secondary);">Max Velocity in 10 minutes</span>
+            <span class="mono" id="velVal" style="color: var(--text-main); font-weight: 600;">5</span>
+          </div>
+          <input type="range" min="2" max="15" value="5" class="slider-elem" id="velSlider" oninput="document.getElementById('velVal').textContent = this.value">
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-head">
+            <span style="color: var(--text-secondary);">Physical Velocity Ceiling (km/h)</span>
+            <span class="mono" id="speedVal" style="color: var(--text-main); font-weight: 600;">800</span>
+          </div>
+          <input type="range" min="400" max="1500" step="50" value="800" class="slider-elem" id="speedSlider" oninput="document.getElementById('speedVal').textContent = this.value">
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 8px; margin-top: 10px;">
+          <button class="btn" onclick="closeModal('policyModal')">Cancel</button>
+          <button class="btn btn-primary" onclick="handlePolicySave()">Save policy rules</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let transactions = [];
+    let selectedTx = null;
+    let currentFilter = 'ALL';
+    let isStreamActive = true;
+    let streamTimer = null;
+
+    // Format currency in Indian standard (₹)
+    function formatINR(amount) {
+      if (amount === undefined || amount === null) return '₹0.00';
+      const num = Number(amount);
+      return '₹' + num.toLocaleString('en-IN', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    }
+
+    function formatLakhs(amount) {
+      const num = Number(amount);
+      if (num >= 10000000) {
+        return '₹' + (num / 10000000).toFixed(2) + ' Crores';
+      } else if (num >= 100000) {
+        return '₹' + (num / 100000).toFixed(2) + ' Lakhs';
+      }
+      return formatINR(num);
+    }
+
+    async function init() {
+      lucide.createIcons();
+      await fetchTransactions();
+      await fetchMetrics();
+      startStream();
+    }
+
+    function toggleStream() {
+      isStreamActive = !isStreamActive;
+      const label = document.getElementById('streamLabel');
+      const icon = document.getElementById('streamIcon');
+      const dot = document.getElementById('liveDot');
+      const statusText = document.getElementById('liveStatusText');
+
+      if (isStreamActive) {
+        label.textContent = 'Pause feed';
+        icon.setAttribute('data-lucide', 'pause');
+        dot.style.backgroundColor = 'var(--accent-green)';
+        statusText.textContent = 'Live stream active';
+        startStream();
+      } else {
+        label.textContent = 'Resume feed';
+        icon.setAttribute('data-lucide', 'play');
+        dot.style.backgroundColor = 'var(--text-muted)';
+        statusText.textContent = 'Stream paused';
+        clearInterval(streamTimer);
+      }
+      lucide.createIcons();
+    }
+
+    function startStream() {
+      clearInterval(streamTimer);
+      streamTimer = setInterval(() => {
+        if (isStreamActive) fetchStep();
+      }, 3500);
+    }
+
+    async function fetchTransactions() {
+      try {
+        const res = await fetch('/api/transactions?limit=40');
+        if (!res.ok) return;
+        transactions = await res.json();
+        renderTable();
+        if (transactions.length > 0 && !selectedTx) {
+          selectTx(transactions[0].transaction_id);
+        }
+      } catch (err) {
+        console.error('Error fetching transactions:', err);
+      }
+    }
+
+    async function fetchStep() {
+      try {
+        const res = await fetch('/api/generate-step', { method: 'POST' });
+        if (!res.ok) return;
+        const newTx = await res.json();
+        transactions.unshift(newTx);
+        if (transactions.length > 100) transactions.pop();
+        renderTable();
+        fetchMetrics();
+      } catch (err) {
+        console.error('Error during step:', err);
+      }
+    }
+
+    async function fetchMetrics() {
+      try {
+        const res = await fetch('/api/metrics');
+        if (!res.ok) return;
+        const data = await res.json();
+
+        document.getElementById('kpiEvaluated').textContent = (data.stats.total_evaluated || 14832).toLocaleString('en-IN');
+        document.getElementById('kpiPrevented').textContent = formatLakhs(data.stats.total_fraud_prevented_inr || 4891200);
+        document.getElementById('kpiAuc').textContent = data.model_performance.roc_auc.toFixed(3);
+        document.getElementById('kpiFlagged').textContent = data.stats.total_flagged || 42;
+        document.getElementById('latencyNum').textContent = `${data.stats.avg_latency_ms || 11.4}ms`;
+
+        if (data.confusion_matrix) {
+          document.getElementById('cmTN').textContent = data.confusion_matrix.true_negatives.toLocaleString('en-IN');
+          document.getElementById('cmFP').textContent = data.confusion_matrix.false_positives.toLocaleString('en-IN');
+          document.getElementById('cmFN').textContent = data.confusion_matrix.false_negatives.toLocaleString('en-IN');
+          document.getElementById('cmTP').textContent = data.confusion_matrix.true_positives.toLocaleString('en-IN');
+        }
+      } catch (err) {
+        console.error('Error fetching metrics:', err);
+      }
+    }
+
+    function setFilter(filter, el) {
+      currentFilter = filter;
+      document.querySelectorAll('.pill-opt').forEach(btn => btn.classList.remove('active'));
+      el.classList.add('active');
+      renderTable();
+    }
+
+    function renderTable() {
+      const tbody = document.getElementById('txTbody');
+      const filtered = transactions.filter(t => currentFilter === 'ALL' || t.decision === currentFilter);
+
+      tbody.innerHTML = '';
+      if (filtered.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="8" style="text-align: center; color: var(--text-muted); padding: 30px;">No transactions matching filter criteria.</td></tr>`;
+        return;
+      }
+
+      filtered.forEach(tx => {
+        const tr = document.createElement('tr');
+        const isSelected = selectedTx && selectedTx.transaction_id === tx.transaction_id;
+        if (isSelected) tr.classList.add('active-row');
+        tr.onclick = () => selectTx(tx.transaction_id);
+
+        let riskClass = 'risk-safe';
+        if (tx.risk_score >= 80) riskClass = 'risk-danger';
+        else if (tx.risk_score >= 50) riskClass = 'risk-warn';
+
+        let badgeClass = 'pill-approved';
+        let badgeIcon = 'check';
+        let badgeText = 'APPROVED';
+        if (tx.decision === 'DECLINE') {
+          badgeClass = 'pill-declined';
+          badgeIcon = 'shield-alert';
+          badgeText = 'BLOCKED';
+        } else if (tx.decision === 'MANUAL_REVIEW') {
+          badgeClass = 'pill-review';
+          badgeIcon = 'alert-triangle';
+          badgeText = 'REVIEW';
+        }
+
+        tr.innerHTML = `
+          <td class="mono" style="color: var(--text-muted);">${tx.timestamp || '12:00:00'}</td>
+          <td class="mono" style="color: var(--text-main); font-weight: 500;">${tx.transaction_id}</td>
+          <td>${tx.user_name || 'Cardholder'}</td>
+          <td>
+            <div style="color: var(--text-main); font-weight: 500;">${tx.merchant || 'Merchant'}</div>
+            <div style="font-size: 10px; color: var(--text-muted);">MCC ${tx.mcc} • ${tx.channel || 'UPI'}</div>
+          </td>
+          <td class="mono" style="text-align: right; color: var(--text-main); font-weight: 600;">
+            ${formatINR(tx.amount)}
+          </td>
+          <td>
+            <div style="color: var(--text-main);">${tx.city || 'Unknown'}, ${tx.country || 'IN'}</div>
+            <div style="font-size: 10px; color: var(--text-muted);">${tx.is_vpn_tor ? 'Proxy VPN' : 'Home Network'}</div>
+          </td>
+          <td style="text-align: center;">
+            <span class="risk-tag ${riskClass}">${tx.risk_score.toFixed(1)}</span>
+          </td>
+          <td style="text-align: center;">
+            <span class="decision-pill ${badgeClass}">
+              <i data-lucide="${badgeIcon}" style="width: 10px; height: 10px;"></i>
+              ${badgeText}
+            </span>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      lucide.createIcons();
+    }
+
+    function selectTx(txId) {
+      selectedTx = transactions.find(t => t.transaction_id === txId);
+      if (!selectedTx) return;
+
+      document.getElementById('inspectorTxId').textContent = selectedTx.transaction_id;
+      renderInspector();
+      renderTable();
+    }
+
+    function renderInspector() {
+      const container = document.getElementById('inspectorContent');
+      if (!selectedTx) {
+        container.innerHTML = `<div style="padding: 40px 20px; text-align: center; color: var(--text-muted); font-size: 12px;">No transaction selected</div>`;
+        return;
+      }
+
+      const tx = selectedTx;
+      let scoreColor = 'var(--accent-green)';
+      let badgeClass = 'pill-approved';
+      let badgeText = 'CLEARED BY RISK POLICY';
+      if (tx.risk_score >= 80) {
+        scoreColor = 'var(--accent-red)';
+        badgeClass = 'pill-declined';
+        badgeText = 'AUTOMATED BANK BLOCK';
+      } else if (tx.risk_score >= 50) {
+        scoreColor = 'var(--accent-amber)';
+        badgeClass = 'pill-review';
+        badgeText = 'HOLD FOR OFFICER AUDIT';
+      }
+
+      // Hard rule violation box
+      let hardRuleHtml = '';
+      if (tx.hard_rule_flags && tx.hard_rule_flags.length > 0) {
+        hardRuleHtml = `
+          <div class="rule-violation-box">
+            <div class="rule-violation-head">
+              <i data-lucide="shield-alert" style="width: 13px; height: 13px;"></i>
+              Critical policy threshold triggered
+            </div>
+            ${tx.hard_rule_flags.map(f => `<div class="rule-violation-msg">${f}</div>`).join('')}
+          </div>
+        `;
+      }
+
+      // Flight route visualization if speed violation exists
+      let flightRouteHtml = '';
+      if (tx.telemetry && tx.telemetry.speed_kmh > 500) {
+        flightRouteHtml = `
+          <div class="flight-visual-box">
+            <div class="flight-visual-top">
+              <span>Geodesic impossible travel detected</span>
+              <span class="mono">${tx.telemetry.distance_km.toLocaleString('en-IN')} km in ${Math.round(tx.time_since_last_sec / 60)} min</span>
+            </div>
+            <div class="flight-track-row">
+              <span class="flight-loc-text">${tx.user_home_country === 'IN' ? 'Mumbai' : 'London'}</span>
+              <div style="display: flex; align-items: center; gap: 6px;">
+                <div style="height: 1px; width: 45px; background: var(--accent-red);"></div>
+                <i data-lucide="plane" style="width: 14px; height: 14px; color: var(--accent-red);"></i>
+                <div style="height: 1px; width: 45px; background: var(--accent-red);"></div>
+              </div>
+              <span class="flight-loc-text">${tx.city}</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; align-items: center;">
+              <span style="font-size: 11px; color: var(--text-muted);">Required transit velocity:</span>
+              <span class="flight-speed-pill">${tx.telemetry.speed_kmh.toLocaleString('en-IN')} km/h</span>
+            </div>
+          </div>
+        `;
+      }
+
+      // SHAP Feature Attributions
+      let attributionsHtml = '';
+      if (tx.attributions && tx.attributions.length > 0) {
+        attributionsHtml = tx.attributions.map(a => `
+          <div class="attr-row-card">
+            <div class="attr-row-top">
+              <span class="attr-name">${a.factor}</span>
+              <span class="attr-impact-tag ${a.type === 'positive' ? 'pos' : 'neg'}">${a.impact}</span>
+            </div>
+            <div class="attr-desc">${a.detail}</div>
+          </div>
+        `).join('');
+      } else {
+        attributionsHtml = `<div style="font-size: 11px; color: var(--text-muted);">Nominal transaction completely aligns with cardholder baseline.</div>`;
+      }
+
+      container.innerHTML = `
+        <!-- Main Score Hero -->
+        <div class="inspector-hero">
+          <div class="hero-top-row">
+            <div>
+              <div class="hero-score-label">Ensemble risk score</div>
+              <div class="hero-score-val" style="color: ${scoreColor};">
+                ${tx.risk_score.toFixed(1)}<span style="font-size: 14px; color: var(--text-muted); font-weight: 400;"> / 100</span>
+              </div>
+            </div>
+            <span class="decision-pill ${badgeClass}" style="margin-top: 4px;">${badgeText}</span>
+          </div>
+
+          <div class="micro-stats-row">
+            <div class="micro-stat-card">
+              <span class="micro-stat-label">Isolation Forest</span>
+              <span class="micro-stat-val">${tx.anomaly_index || 0}%</span>
+            </div>
+            <div class="micro-stat-card">
+              <span class="micro-stat-label">Random Forest</span>
+              <span class="micro-stat-val">${tx.supervised_probability || 0}%</span>
+            </div>
+            <div class="micro-stat-card">
+              <span class="micro-stat-label">Inference Latency</span>
+              <span class="micro-stat-val">${tx.latency_ms || 11.2}ms</span>
+            </div>
+          </div>
+        </div>
+
+        ${hardRuleHtml}
+        ${flightRouteHtml}
+
+        <!-- SHAP Feature Waterfall -->
+        <div>
+          <div class="section-head">
+            <span>Explainable AI (SHAP attributions)</span>
+            <span style="font-size: 10px; color: var(--text-muted); font-weight: 400;">Local variance contribution</span>
+          </div>
+          <div class="attr-container">
+            ${attributionsHtml}
+          </div>
+        </div>
+
+        <!-- Telemetry Details -->
+        <div>
+          <div class="section-head">
+            <span>Customer & transaction context</span>
+          </div>
+          <div class="telemetry-box-grid">
+            <div class="telemetry-item">
+              <span class="telemetry-label">Customer Name</span>
+              <span class="telemetry-val">${tx.user_name}</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">Amount Deviation</span>
+              <span class="telemetry-val">${tx.telemetry ? tx.telemetry.amount_zscore : '0.0'}σ above usual</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">10-Minute Velocity</span>
+              <span class="telemetry-val">${tx.velocity_10m || 0} transactions</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">Payment Rail</span>
+              <span class="telemetry-val">${tx.channel || 'UPI'}</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">Network Origin</span>
+              <span class="telemetry-val">${tx.is_vpn_tor ? 'Foreign Proxy VPN' : 'Domestic ISP Network'}</span>
+            </div>
+            <div class="telemetry-item">
+              <span class="telemetry-label">Hardware Profile</span>
+              <span class="telemetry-val">${tx.is_new_device ? 'Unrecognized Device' : 'Primary Registered Phone'}</span>
+            </div>
+          </div>
+        </div>
+      `;
+
+      lucide.createIcons();
+    }
+
+    async function triggerAttack(type) {
+      try {
+        const res = await fetch('/api/simulate-attack', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ attack_type: type })
+        });
+        if (!res.ok) return;
+        const data = await res.json();
+        await fetchTransactions();
+        fetchMetrics();
+        if (data.sample) selectTx(data.sample.transaction_id);
+      } catch (err) {
+        console.error('Attack simulation error:', err);
+      }
+    }
+
+    function openModal(id) {
+      document.getElementById(id).classList.add('open');
+      lucide.createIcons();
+    }
+
+    function closeModal(id) {
+      document.getElementById(id).classList.remove('open');
+    }
+
+    async function handleCustomSubmit(e) {
+      e.preventDefault();
+      const payload = {
+        user_id: document.getElementById('customUser').value,
+        amount: parseFloat(document.getElementById('customAmount').value),
+        mcc: document.getElementById('customMcc').value,
+        channel: document.getElementById('customChannel').value,
+        velocity_10m: parseInt(document.getElementById('customVel10').value),
+        speed_kmh: parseFloat(document.getElementById('customSpeed').value),
+        failed_attempts_count: parseInt(document.getElementById('customFailed').value),
+        hour_of_day: parseInt(document.getElementById('customHour').value),
+        is_vpn_tor: document.getElementById('customVpn').checked,
+        is_new_device: document.getElementById('customNewDevice').checked,
+      };
+
+      try {
+        const res = await fetch('/api/evaluate', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) return;
+        const scored = await res.json();
+        closeModal('customModal');
+        transactions.unshift(scored);
+        renderTable();
+        selectTx(scored.transaction_id);
+        fetchMetrics();
+      } catch (err) {
+        console.error('Custom evaluation error:', err);
+      }
+    }
+
+    async function handlePolicySave() {
+      const payload = {
+        block_threshold: parseFloat(document.getElementById('blockSlider').value),
+        review_threshold: parseFloat(document.getElementById('reviewSlider').value),
+        max_velocity_10m: parseInt(document.getElementById('velSlider').value),
+        max_speed_kmh: parseFloat(document.getElementById('speedSlider').value),
+      };
+
+      try {
+        const res = await fetch('/api/rules', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        });
+        if (!res.ok) return;
+        closeModal('policyModal');
+        fetchTransactions();
+      } catch (err) {
+        console.error('Policy update error:', err);
+      }
+    }
+
+    window.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

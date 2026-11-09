@@ -90,3 +90,4 @@ The system will start and serve the complete dashboard at:
 - `POST /api/simulate-attack` — Inject targeted attack scenario into the stream
 - `GET /api/metrics` — Telemetry, confusion matrix, ROC-AUC, and fraud rates
 - `GET /api/rules` / `POST /api/rules` — Dynamic policy threshold configuration
+
