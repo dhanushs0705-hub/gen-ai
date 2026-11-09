@@ -1,4 +1,4 @@
-﻿# AI-Powered Fraud Detection System Launcher (Indian Banking Edition)
+# AI-Powered Fraud Detection System Launcher (Indian Banking Edition)
 Write-Host "================================================================" -ForegroundColor Cyan
 Write-Host " Starting AI Fraud Detection & Anomaly Prevention System       " -ForegroundColor Green
 Write-Host " Indian Banking Edition: RuPay, UPI, IMPS, Cards (INR ₹)        " -ForegroundColor Yellow

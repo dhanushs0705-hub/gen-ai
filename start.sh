@@ -10,3 +10,4 @@ echo " UI Design Standard: heydamir/unslop specifications             "
 echo "================================================================"
 
 python3 run.py || python run.py
+
